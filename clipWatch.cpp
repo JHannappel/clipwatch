@@ -25,9 +25,13 @@ clipWatch::clipWatch() {
   latin1->setAutoExclusive(false);
   toolBar->addWidget(latin1);
   hex = new QRadioButton("with hex translation");
-  hex->setChecked(true);
+  hex->setChecked(false);
   hex->setAutoExclusive(false);
   toolBar->addWidget(hex);
+  mogrify = new QRadioButton("mogrify selection");
+  mogrify->setChecked(true);
+  mogrify->setAutoExclusive(false);
+  toolBar->addWidget(mogrify);
   clipSize = new QLabel();
   toolBar->addWidget(clipSize);
   setAttribute(Qt::WA_ShowWithoutActivating);
@@ -50,8 +54,9 @@ void clipWatch::clipChange(QClipboard::Mode mode) {
    QString widgetText;
    QString newSelectionText;
    if (latin1->isChecked()) {
-     auto text=md->data("text/plain");//cb->text(mode).toLatin1();
+     auto text=md->data("text/plain");
      for (unsigned char c:text) {
+       std::cout << "next char is " << c << " sel: " << newSelectionText.toLocal8Bit().constData() << std::endl;
        if (c<' ') {
 	 widgetText.push_back(c+0x2400);
 	 if (c=='\t' || c=='\n') {
@@ -64,6 +69,8 @@ void clipWatch::clipChange(QClipboard::Mode mode) {
 	 widgetText.push_back(c-0x0080+0x2580);
        } else if (c==0xA0) {
 	 widgetText.push_back(0x25A1);
+       } else if (c>0xA0) {
+	 widgetText.push_back(0x25A3);
        } else {
 	 widgetText.push_back(c);
 	 newSelectionText.push_back(c);
@@ -90,7 +97,9 @@ void clipWatch::clipChange(QClipboard::Mode mode) {
    }
    if (newSelectionText != lastSetByMe) {
      lastSetByMe=newSelectionText;
-     //     cb->setText(newSelectionText);
+     if (mogrify->isChecked()) {
+       cb->setText(newSelectionText);
+     }
    }
    raise();
    show();
