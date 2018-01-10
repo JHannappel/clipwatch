@@ -6,6 +6,7 @@
 #include "clipWatch.h"
 
 clipWatch::clipWatch() {
+  this->setWindowFlags(this->windowFlags()|Qt::FramelessWindowHint);
   textWidget = new QPlainTextEdit(this);
   setCentralWidget(textWidget);
   textWidget->resize(80,1);
@@ -35,7 +36,7 @@ clipWatch::clipWatch() {
   clipSize = new QLabel();
   toolBar->addWidget(clipSize);
   setAttribute(Qt::WA_ShowWithoutActivating);
-  showMinimized();
+  //  showMinimized();
 }
 clipWatch::~clipWatch() {
 }
