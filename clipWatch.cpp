@@ -57,7 +57,6 @@ void clipWatch::clipChange(QClipboard::Mode mode) {
    if (latin1->isChecked()) {
      auto text=md->data("text/plain");
      for (unsigned char c:text) {
-       std::cout << "next char is " << c << " sel: " << newSelectionText.toLocal8Bit().constData() << std::endl;
        if (c<' ') {
 	 widgetText.push_back(c+0x2400);
 	 if (c=='\t' || c=='\n') {
