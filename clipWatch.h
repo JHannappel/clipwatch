@@ -14,6 +14,7 @@ class clipWatch: public QMainWindow {
   QAbstractButton* hex;
   QAbstractButton* mogrify;
   QLabel* clipSize;
+  QLabel* clipMode;
   QString lastSetByMe;
  public:
   clipWatch();

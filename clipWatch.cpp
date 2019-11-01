@@ -35,6 +35,8 @@ clipWatch::clipWatch() {
   toolBar->addWidget(mogrify);
   clipSize = new QLabel();
   toolBar->addWidget(clipSize);
+  clipMode = new QLabel();
+  toolBar->addWidget(clipMode);
   setAttribute(Qt::WA_ShowWithoutActivating);
   //  showMinimized();
 }
@@ -42,6 +44,16 @@ clipWatch::~clipWatch() {
 }
 void clipWatch::clipChange(QClipboard::Mode mode) {
    auto cb = QApplication::clipboard();
+   switch (mode) {
+   case QClipboard::Clipboard:
+	   clipMode->setText("In Clipboard");
+	   break;
+   case QClipboard::Selection:
+	   clipMode->setText("In Selection");
+	   break;
+   default:
+	   clipMode->setText("Unknown Mode");
+   }
 
    std::cout << "\n\nnew selection:\n";
    auto md=cb->mimeData(mode);
