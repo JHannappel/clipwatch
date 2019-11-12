@@ -37,6 +37,8 @@ clipWatch::clipWatch() {
   toolBar->addWidget(clipSize);
   clipMode = new QLabel();
   toolBar->addWidget(clipMode);
+  auto toSelection = toolBar->addAction("to Selection");
+  connect(toSelection,SIGNAL(triggered()),this,SLOT(moveToSelection()));
   setAttribute(Qt::WA_ShowWithoutActivating);
   //  showMinimized();
 }
@@ -118,4 +120,8 @@ void clipWatch::clipChange(QClipboard::Mode mode) {
 }
 void clipWatch::textChange() {
   clipSize->setText(QString::number(textWidget->document()->characterCount()-1));
+}
+void clipWatch::moveToSelection() {
+	auto cb = QApplication::clipboard();
+	cb->setText(cb->text(QClipboard::Clipboard),QClipboard::Selection);
 }

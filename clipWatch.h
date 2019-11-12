@@ -22,4 +22,5 @@ class clipWatch: public QMainWindow {
   public slots:
     void clipChange(QClipboard::Mode mode);
     void textChange();
+    void moveToSelection();
 };
